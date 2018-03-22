@@ -1,0 +1,31 @@
+---
+title: "Logistic Analysis"
+output: html_notebook
+---
+
+This is the R version of [Logistic Regression in Python Using Rodeo](http://blog.yhat.com/posts/logistic-regression-python-rodeo.html).
+
+Load data and rename column name:
+```{r}
+df <- read.table('binary.csv', header = T, sep = ',')
+library(plyr)
+data <- rename(df, c('rank' = 'prestige'))
+str(data)
+```
+
+Convert categorial column to factor:
+```{r}
+data$admit <- as.factor(data$admit)
+data$prestige <- as.factor(data$prestige)
+```
+
+Fit the model:
+```{r}
+result <- glm(admit ~ gre + gpa + prestige, data = data, family = binomial)
+summary(result)
+```
+Odds ratio:
+```{r}
+exp(coef(result))
+```
+
